@@ -45,7 +45,9 @@ UI framework：Element-UI 2.6.3
 ## Installation Instructions
 
 
-Configure Java runtime environment, redis environment and mysql environment; import the 72crm.sql in directory doc into database; modify database in `resources/config/erpsnow-config.txt` and redis configuration file; modify undertow start port number in `resources/config/undertow.txt`. (Default Account: admin  Default Password: 123456) 
+Configure Java runtime environment, redis environment and mysql environment; import the 72crm.sql in directory doc into database; 
+modify database in `resources/config/erpsnow-config.txt` and redis configuration file; 
+modify undertow start port number in `resources/config/undertow.txt`. (Default Account: admin  Default Password: 123456) 
 
 
 
@@ -89,6 +91,17 @@ The project webapp includes the packaged front-end code. If you needn't to modif
 p.s.: you can use `nginx` proxy to process static file, the back-end only implement interfaces. And the designation of the program is a completely separated front-end the back-end.
 
 
+#docker
+docker system prune -a
+docker run --name=mysql -e MYSQL_ROOT_HOST=% -p 3306:3306 -d mysql/mysql-server
+docker logs mysql 2>&1 | grep GENERATED
+docker exec -it mysql mysql -u root -p
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+
+#redis
+docker run --name=redis --publish=6379:6379 --hostname=redis --restart=on-failure --detach -e REDIS_PASSWORD=123456 redis:latest /bin/sh -c 'redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}'
 
 
 ### Front-end deployment

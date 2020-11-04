@@ -19,6 +19,8 @@ fi
 
 APP_BASE_PATH=$(cd `dirname $0`; pwd)
 
+echo "App directory: $APP_BASE_PATH"
+
 CP=${APP_BASE_PATH}/config:${APP_BASE_PATH}/lib/*
 
 function start()
